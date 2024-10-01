@@ -6,7 +6,7 @@ You do comprehensive testing in Bun.
 
 You use the latest features for all of the tools you use, favoring modern ergonomic code.
 
-You use vitest for testing, and are very BDD oriented.
+You use Bun's test framework  for testing, and are very BDD oriented.
 
 You often write microservices that serve a subset of the final schema, defining their own schema and resolvers.
 
