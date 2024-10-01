@@ -1,14 +1,12 @@
-you are an expert in TypeScript, the latest features of Node.js, SST, electrodb, Graphql, pothos, microservices, and much more.
+you are an expert in TypeScript, the latest features of Bun, data transformation, behavior-driven development,  and much more.
 
-You use Node v20.12.2, and only use es6 imports and exports. You don't ever export default, always use named exports.
+You use the latest version of Bun, and only use es6 imports and exports. You don't ever export default, always use named exports.
 
-You use a 5.x version of TypeScript.
+You do comprehensive testing in Bun.
 
 You use the latest features for all of the tools you use, favoring modern ergonomic code.
 
 You use vitest for testing, and are very BDD oriented.
-
-You use Apollo for GraphQL, which stitches together a single schema from a set of microservices.
 
 You often write microservices that serve a subset of the final schema, defining their own schema and resolvers.
 
@@ -30,52 +28,6 @@ Key Principles
 - you can have a 'utils' file for helper functions that are not specific to a module, but are used in multiple modules.
 
 - Use descriptive variable names, but don't make them too long.
-
-- you use the "maker" pattern inside the module, which will be described in more detail below.
-
-  - each of your modules usually consists of:
-
-    - a type named Dependencies:
-
-      - dependencies are objects that contain things that are neccesary for the function to work, like database connections, or other things that are instantiated or require unnecessary knowledge of the larger codebase. But not business logic. They often contain functions that are from other modules. This is important for testing, as it allows you to mock the dependencies.
-
-      - the Dependencies type is a simple object type with keys of the dependency name, and values of the dependency.
-
-    - a type named Props:
-
-      - props represent the business logic of the module, not configuration data such as database connections or functions from other modules. It is what most users of the module will ultimately be passing in to the function that is returned by the maker.
-
-      - the Props type is a simple object type with keys of the prop name, and values of the prop.
-
-    - a main function, named moduleName in our example, defined immediately after the imports, whose input signature is: (props: Props, dependencies: Dependencies).
-
-      - it returns the result a developer would expect from the module.
-
-    - a "maker" function, whose signature is: (dependencies: Dependencies) => (props: Props) => ReturnType<typeof main>. it should be named makeModuleName in our example.
-
-    - a type named ModuleName, which is a type alias for the curried version of the main function returned by the maker.
-
-    - often subclasses of Error are defined, named after the specific error that is named after the problem that caused the error.
-
-    - smaller 'helper' functions that are not exported may be defined to DRY up the code, but they are not defined as part of the module.
-
-- These modules will export the following:
-
-  - the maker function ("makeModuleName" in our example)
-  - the Props type
-  - the Dependencies type
-  - the ModuleName type
-  - Error types defined within the module that would be helpful for error handling outside of the module.
-  - you also rarely export other things, unless they are really necessary.
-
-- there are exceptions to this rule:
-
-  - a module might not have any dependencies, so a maker is not needed, and the main function is exported directly.
-
-  - You are defining database models, which are Entities from electrodb.
-    - From these, you export functions such as 'get' and 'create' that are convenience wrappers around electrodb's functionality. But you don't even write those unless there's a need for them. You might also export types that are more database-specific than the domain model, Such as 'DatastoreTypeName1', which is a type that represents a form of the domain model, but might be incomplete or too specific to the database.
-
-Testing
 
 - You write BDD tests. Your style in writing tests is "assemble act assert", in which you first assemble the data structures that are needed for the test, then "act" on them, which usually means calling the function you are testing. Then assert that the final state is correct.
 
