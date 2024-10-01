@@ -1,7 +1,12 @@
 {
   "name": "comfyui-workflow-transformer",
   "module": "index.ts",
+  "main": "./src/index.ts",
   "type": "module",
+  "scripts": {
+    "start": "bun run index.ts",
+    "test": "bun test"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
